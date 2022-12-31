@@ -17,7 +17,6 @@ namespace vuSim
         public StudentSchedule Schedule { get; set; }
         public DegreeRequirements DegreeRequirements { get; set; }
 
-        private Subject TopSubject;
         public Student(string firstName, string lastName)
         {
             Id = MaxId++;
@@ -25,15 +24,12 @@ namespace vuSim
             LastName = lastName;
             Transcript = new Transcript();
             Schedule = new StudentSchedule();
-            DegreeRequirements = new DegreeRequirements();
-
-            Random r = new Random();
-            TopSubject = SubjectListing.Instance.GetRandomSubject();
+            DegreeRequirements = DegreeRequirements.General;
         }
 
         public Subject GetTopSubject()
         {
-            return TopSubject;
+            return DegreeRequirements.GetNeededSubject(Transcript, Schedule);
         }
 
         public void ScheduleSection(Section s)
