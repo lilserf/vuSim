@@ -34,7 +34,7 @@ foreach(var sec in sections)
 foreach(Student student in students)
 {
     var success = Scheduler.TryScheduleStudent(student, sections);
-    Console.WriteLine($"  {success} - {student.Schedule}");
+    Console.WriteLine($"{student} : {success} - {student.Schedule}");
 }
 
 foreach(Section sec in sections)
