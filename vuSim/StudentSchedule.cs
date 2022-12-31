@@ -15,6 +15,11 @@ namespace vuSim
             Sections = new List<Section>();
         }
 
+        public bool IsEmpty()
+        {
+            return Sections.Count == 0;
+        }
+
         public override string ToString()
         {
             return string.Join("| ", Sections);

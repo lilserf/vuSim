@@ -12,11 +12,12 @@ namespace vuSim
         public int Id { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Name => $"{FirstName} {LastName}";
         public Transcript Transcript { get; set; }
         public StudentSchedule Schedule { get; set; }
         public DegreeRequirements DegreeRequirements { get; set; }
 
-        private string TopSubject;
+        private Subject TopSubject;
         public Student(string firstName, string lastName)
         {
             Id = MaxId++;
@@ -27,10 +28,10 @@ namespace vuSim
             DegreeRequirements = new DegreeRequirements();
 
             Random r = new Random();
-            TopSubject = Subject.Names[r.Next(Subject.Count)];
+            TopSubject = SubjectListing.Instance.GetRandomSubject();
         }
 
-        public string GetTopSubject()
+        public Subject GetTopSubject()
         {
             return TopSubject;
         }
@@ -42,7 +43,7 @@ namespace vuSim
 
         public override string ToString()
         {
-            return $"[S{Id}] {FirstName} {LastName}, interested in {TopSubject}";
+            return $"[S{Id}] {FirstName} {LastName}";
         }
     }
 }

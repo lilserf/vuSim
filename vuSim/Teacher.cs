@@ -12,9 +12,9 @@ namespace vuSim
         public int Id { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Subject { get; set; }
+        public Subject Subject { get; set; }
 
-        public Teacher(string firstName, string lastName, string subject)
+        public Teacher(string firstName, string lastName, Subject subject)
         {
             Id = MaxId++;
             FirstName = firstName;

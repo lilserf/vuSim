@@ -8,7 +8,7 @@ namespace vuSim
 {
     internal class Section
     {
-        public string Subject { get; set; }
+        public Subject Subject { get; set; }
         public Teacher Teacher { get; set; }
         public Room Room { get; set; }
 

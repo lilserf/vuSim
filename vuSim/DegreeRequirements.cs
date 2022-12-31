@@ -8,5 +8,18 @@ namespace vuSim
 {
     internal class DegreeRequirements
     {
+        Dictionary<string, int> m_credits= new Dictionary<string, int>();
+
+        public DegreeRequirements() 
+        {
+            
+        }
+
+        bool AreRequirementsMet(Transcript t)
+        {
+            return false;
+        }
+
+
     }
 }

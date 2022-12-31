@@ -8,13 +8,21 @@ namespace vuSim
 {
     internal class Subject
     {
-        public static string[] Names = new string[]
-        {
-            "Math",
-            "Science",
-            "English"
-        };
+        static int MaxId = 0;
+        public int Id { get; }
+        public string Name { get; }
+        public string ShortName { get; }
 
-        public static int Count => Names.Length;
+        public Subject(string name, string shortName)
+        {
+            Id = MaxId++;
+            Name = name;
+            ShortName = shortName;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

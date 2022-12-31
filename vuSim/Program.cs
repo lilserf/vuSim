@@ -13,31 +13,35 @@ for(int i =0; i < 100; i++)
 }
 
 List<Teacher> teachers = new List<Teacher> ();
-for(int i =0;i < 5; i++)
+for(int i =0;i < 13; i++)
 {
-    teachers.Add(new Teacher($"Teach{i}", $"TeachLast{i}", Subject.Names[i%Subject.Count]));
+    teachers.Add(new Teacher(NameFactory.Instance.GetRandomFirstName(), NameFactory.Instance.GetRandomLastName(), SubjectListing.Instance.GetRandomSubject()));
 }
 
 List<Room> rooms = new List<Room> ();
-for(int i=0; i < 7; i++)
+for(int i=0; i < 11; i++)
 {
-    rooms.Add(new Room("Classroom", Subject.Names[i % Subject.Count], (i + 1)));
+    rooms.Add(new Room("Classroom", SubjectListing.Instance.GetRandomSubject(), (i + 1)));
 }
 
 var sections = Scheduler.CreateSections(rooms, teachers).ToList();
 
-foreach(var sec in sections)
+foreach(var student in students)
 {
-    Console.WriteLine(sec);
+    Scheduler.TryScheduleStudent(student, sections);
 }
 
-foreach(Student student in students)
-{
-    var success = Scheduler.TryScheduleStudent(student, sections);
-    Console.WriteLine($"{student} : {success} - {student.Schedule}");
-}
 
 foreach(Section sec in sections)
 {
-    Console.WriteLine($"Section {sec} - {sec.OpenSeats} open seats!");
+    Console.WriteLine("======================");
+    Console.WriteLine($"Section {sec}:");
+    foreach(var student in sec.Students)
+        Console.WriteLine($"{student.Name}");
+}
+
+Console.WriteLine("Students with empty schedules:");
+foreach(var student in students.Where(x => x.Schedule.IsEmpty()))
+{
+    Console.WriteLine($"{student}");
 }

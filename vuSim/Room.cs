@@ -11,10 +11,10 @@ namespace vuSim
         static int MaxId = 0;
         int Id { get; }
         public string Type { get; set; }
-        public string Subject { get; set; } 
+        public Subject Subject { get; set; } 
         public int Seats { get; set; }
 
-        public Room(string type, string subject, int seats)
+        public Room(string type, Subject subject, int seats)
         {
             Id = MaxId++;
             Type = type;
