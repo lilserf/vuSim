@@ -8,5 +8,13 @@ namespace vuSim
 {
     internal class Subject
     {
+        public static string[] Names = new string[]
+        {
+            "Math",
+            "Science",
+            "English"
+        };
+
+        public static int Count => Names.Length;
     }
 }

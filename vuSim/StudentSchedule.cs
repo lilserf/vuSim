@@ -8,5 +8,16 @@ namespace vuSim
 {
     internal class StudentSchedule
     {
+        public IList<Section> Sections { get; set; }
+
+        public StudentSchedule()
+        {
+            Sections = new List<Section>();
+        }
+
+        public override string ToString()
+        {
+            return string.Join("| ", Sections);
+        }
     }
 }

@@ -10,6 +10,20 @@ namespace vuSim.Scheduler
     {
         public Scheduler() { }
 
+        public static bool TryScheduleStudent(Student student, IEnumerable<Section> sections)
+        {
+            var subj = student.GetTopSubject();
+
+            Section? avail = sections.Where(x => x.Subject == subj).Where(x => x.OpenSeats > 0).FirstOrDefault();
+            if(avail != null)
+            {
+                student.ScheduleSection(avail);
+                avail.Students.Add(student);
+                return true;
+            }
+            return false;
+        }
+
         public static IEnumerable<Section> CreateSections(IEnumerable<Room> rooms, IEnumerable<Teacher> teachers)
         {
             var subjects = rooms.Select(x => x.Subject).Distinct();

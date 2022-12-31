@@ -16,6 +16,7 @@ namespace vuSim
         public StudentSchedule Schedule { get; set; }
         public DegreeRequirements DegreeRequirements { get; set; }
 
+        private string TopSubject;
         public Student(string firstName, string lastName)
         {
             Id = MaxId++;
@@ -24,6 +25,24 @@ namespace vuSim
             Transcript = new Transcript();
             Schedule = new StudentSchedule();
             DegreeRequirements = new DegreeRequirements();
+
+            Random r = new Random();
+            TopSubject = Subject.Names[r.Next(Subject.Count)];
+        }
+
+        public string GetTopSubject()
+        {
+            return TopSubject;
+        }
+
+        public void ScheduleSection(Section s)
+        {
+            Schedule.Sections.Add(s);
+        }
+
+        public override string ToString()
+        {
+            return $"[S{Id}] {FirstName} {LastName}, interested in {TopSubject}";
         }
     }
 }
