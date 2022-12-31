@@ -1,14 +1,15 @@
 ﻿
 using vuSim;
+using vuSim.Factories;
 using vuSim.Scheduler;
 
+StudentFactory stuFac = new StudentFactory();
 
 List<Student> students = new List<Student> ();
-for(int i =0; i < 10; i++)
+for(int i =0; i < 100; i++)
 {
-    var s = new Student($"First{i}", $"Last{i}");
+    var s = stuFac.CreateStudent();
     students.Add(s);
-    Console.WriteLine(s);
 }
 
 List<Teacher> teachers = new List<Teacher> ();
@@ -23,7 +24,7 @@ for(int i=0; i < 7; i++)
     rooms.Add(new Room("Classroom", Subject.Names[i % Subject.Count], (i + 1)));
 }
 
-var sections = Scheduler.CreateSections(rooms, teachers);
+var sections = Scheduler.CreateSections(rooms, teachers).ToList();
 
 foreach(var sec in sections)
 {
@@ -36,3 +37,7 @@ foreach(Student student in students)
     Console.WriteLine($"  {success} - {student.Schedule}");
 }
 
+foreach(Section sec in sections)
+{
+    Console.WriteLine($"Section {sec} - {sec.OpenSeats} open seats!");
+}
