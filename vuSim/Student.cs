@@ -27,9 +27,10 @@ namespace vuSim
             DegreeRequirements = DegreeRequirements.General;
         }
 
-        public Subject GetTopSubject()
+        public IEnumerable<Subject> GetNeededSubjects()
         {
-            return DegreeRequirements.GetNeededSubject(Transcript, Schedule);
+            var subjectIds = DegreeRequirements.GetMissingCredits(Transcript).OrderByDescending(x => x.Value).Select(x => x.Key).ToList();
+            return subjectIds.Select(x => SubjectListing.Instance.GetSubjectById(x));
         }
 
         public void ScheduleSection(Section s)

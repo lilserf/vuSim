@@ -12,14 +12,20 @@ namespace vuSim.Scheduler
 
         public static bool TryScheduleStudent(Student student, IEnumerable<Section> sections)
         {
-            var subj = student.GetTopSubject();
+            var subjList = new Queue<Subject>(student.GetNeededSubjects());
 
-            Section? avail = sections.Where(x => x.Subject == subj).Where(x => x.OpenSeats > 0).FirstOrDefault();
-            if(avail != null)
+            while (subjList.Count > 0)
             {
-                student.ScheduleSection(avail);
-                avail.Students.Add(student);
-                return true;
+                var subj = subjList.Dequeue();
+                // TODO randomly pick one of the sections with open seats rather than always choosing the first one
+                Section? avail = sections.Where(x => x.Subject == subj).Where(x => x.OpenSeats > 0).FirstOrDefault();
+                if (avail != null)
+                {
+                    student.ScheduleSection(avail);
+                    avail.Students.Add(student);
+                    if(student.Schedule.IsFull())
+                        return true;
+                }
             }
             return false;
         }

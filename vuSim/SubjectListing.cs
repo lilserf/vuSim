@@ -12,7 +12,7 @@ namespace vuSim
         static SubjectListing()
         {
             Instance = new SubjectListing();
-            // TODO
+            // TODO this is temp code
             Instance.AddSubject(new Subject("Math", "MAT"));
             Instance.AddSubject(new Subject("English", "ENG"));
             Instance.AddSubject(new Subject("Science", "SCI"));

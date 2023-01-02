@@ -8,6 +8,7 @@ namespace vuSim
 {
     internal class StudentSchedule
     {
+        const int MAX_SECTIONS_PER_TERM = 4;
         public IList<Section> Sections { get; set; }
 
         public StudentSchedule()
@@ -15,6 +16,10 @@ namespace vuSim
             Sections = new List<Section>();
         }
 
+        public bool IsFull()
+        {
+            return Sections.Count >= MAX_SECTIONS_PER_TERM;
+        }
         public bool IsEmpty()
         {
             return Sections.Count == 0;
