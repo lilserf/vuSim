@@ -23,10 +23,12 @@ namespace vuSim
             sp.Inject(out m_roomService);
         }
 
-        public void PrintBasicStats()
+        public void PrintBasicStats(int term)
         {
+            Console.WriteLine($"### STATS for term {term} ###");
             PrintSectionStats();
             PrintStudentStats();
+            Console.WriteLine();
         }
 
         void PrintSectionStats()
@@ -36,7 +38,7 @@ namespace vuSim
             foreach(var subject in m_subjectService.Subjects)
             {
                 var matchSec = sections.Where(x => x.Subject == subject);
-                Console.WriteLine($"  {matchSec.Count()} sections of {subject.Name}, with {matchSec.Sum(x => x.Seats)} seats");
+                Console.WriteLine($"  {matchSec.Count()} sections of {subject.Name}, with {matchSec.Sum(x => x.Seats)} seats ({matchSec.Sum(x => x.OpenSeats)} open)");
             }
         }
 

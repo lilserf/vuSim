@@ -23,21 +23,27 @@ namespace vuSim
             services.Inject(out m_sectionService);
         }
 
-        public void ExecuteStartOfTerm(int termNum)
+        public int ExecuteStartOfTerm()
         {
+            m_currTerm++;
+            m_currTick = 0;
+
             m_sectionService.RecalculateSections();
 
             foreach (var student in m_studentService.Students)
             {
                 Scheduler.TryScheduleStudent(student, m_sectionService.Sections);
             }
+
+            return m_currTerm;
         }
 
-        public void TickTerm(int termNum) 
-        { 
+        public void TickTerm() 
+        {
+            m_currTick++;
         }
 
-        public void ExecuteEndOfTerm(int termNum)
+        public void ExecuteEndOfTerm()
         {
 
         }

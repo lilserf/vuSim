@@ -48,7 +48,14 @@ for(int i=0; i < 11; i++)
 }
 
 GameLoop gl = new GameLoop(sp);
-gl.ExecuteStartOfTerm(0);
 
-stats.PrintBasicStats();
+for (int i = 0; i < 10; i++)
+{
+    var term = gl.ExecuteStartOfTerm();
+    stats.PrintBasicStats(term);
+
+    gl.ExecuteEndOfTerm();
+
+}
+
 
