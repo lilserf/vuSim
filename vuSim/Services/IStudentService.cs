@@ -9,7 +9,10 @@ namespace vuSim.Services
     internal interface IStudentService
     {
         public IEnumerable<Student> Students { get; }
+        public IEnumerable<Student> Graduates { get; }
 
         public Student CreateNewStudent();
+        public void GraduateStudent(Student student);
+
     }
 }

@@ -55,7 +55,7 @@ for (int i = 0; i < 10; i++)
     stats.PrintBasicStats(term);
 
     gl.ExecuteEndOfTerm();
-
+    stats.PrintStudentTermHistogram();
 }
 
 

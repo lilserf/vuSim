@@ -31,7 +31,7 @@ namespace vuSim
             Console.WriteLine();
         }
 
-        void PrintSectionStats()
+        public void PrintSectionStats()
         {
             var sections = m_sectionService.Sections;
             Console.WriteLine($"=== Sections ===");
@@ -42,7 +42,26 @@ namespace vuSim
             }
         }
 
-        void PrintStudentStats()
+        public void PrintStudentTermHistogram()
+        {
+            int maxTerms = m_studentService.Students.Max(x => x.TermsEnrolled);
+
+            Console.WriteLine("=== Student body histogram ===");
+            for(int i = 1; i <= maxTerms; i++)
+            {
+                int num = m_studentService.Students.Count(x => x.TermsEnrolled == i);
+                Console.Write($"{i:00} : ({num:00})");
+                for (int j=0; j<num; j++)
+                {
+                    Console.Write("#");
+                }
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+        }
+
+        public void PrintStudentStats()
         { 
             var fullStudents = m_studentService.Students.Count(x => x.Schedule.IsFull());
             var emptyStudents = m_studentService.Students.Count(x => x.Schedule.IsEmpty());
@@ -52,6 +71,7 @@ namespace vuSim
             Console.WriteLine($"  {fullStudents} fully scheduled");
             Console.WriteLine($"  {mixedStudents} partially scheduled");
             Console.WriteLine($"  {emptyStudents} not scheduled");
+            Console.WriteLine($"  {m_studentService.Graduates.Count()} graduates");
         }
     }
 }

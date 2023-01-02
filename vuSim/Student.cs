@@ -17,6 +17,7 @@ namespace vuSim
         public Transcript Transcript { get; set; }
         public StudentSchedule Schedule { get; set; }
         public DegreeRequirements DegreeRequirements { get; set; }
+        public int TermsEnrolled { get; set; }
 
         public Student(string firstName, string lastName)
         {
@@ -26,6 +27,7 @@ namespace vuSim
             Transcript = new Transcript();
             Schedule = new StudentSchedule();
             DegreeRequirements = DegreeRequirements.General;
+            TermsEnrolled = 0;
         }
 
         public IEnumerable<Subject> GetNeededSubjects()
@@ -36,6 +38,26 @@ namespace vuSim
         public void ScheduleSection(Section s)
         {
             Schedule.Sections.Add(s);
+        }
+
+        public void FinishTerm()
+        {
+            // Don't bother if they weren't in any classes
+            // TODO: future features here
+            if (Schedule.IsEmpty())
+                return;
+
+            TermsEnrolled++;
+            foreach (var section in Schedule.Sections)
+            {
+                Transcript.AddCompletedCredit(section);
+            }
+            Schedule.Clear();
+        }
+
+        public bool IsDegreeEarned()
+        {
+            return DegreeRequirements.AreRequirementsMet(Transcript);
         }
 
         public override string ToString()

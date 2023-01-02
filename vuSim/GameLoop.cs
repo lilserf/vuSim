@@ -45,7 +45,21 @@ namespace vuSim
 
         public void ExecuteEndOfTerm()
         {
+            List<Student> graduates = new();
 
+            foreach(var student in m_studentService.Students)
+            {
+                student.FinishTerm();
+                if(student.IsDegreeEarned())
+                {
+                    graduates.Add(student);
+                }
+            }
+
+            foreach (var student in graduates)
+            {
+                m_studentService.GraduateStudent(student);
+            }
         }
     }
 }
