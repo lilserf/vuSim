@@ -19,9 +19,9 @@ namespace vuSim
         public DegreeRequirements DegreeRequirements { get; set; }
         public int TermsEnrolled { get; private set; } = 0;
 
-        public EventLog Events { get; } = new();
+        public EventLog Events { get; }
 
-        public Student(string firstName, string lastName)
+        public Student(IServiceProvider sp, string firstName, string lastName)
         {
             Id = MaxId++;
             FirstName = firstName;
@@ -29,6 +29,8 @@ namespace vuSim
             Transcript = new Transcript();
             Schedule = new StudentSchedule();
             DegreeRequirements = DegreeRequirements.General;
+
+            Events = new(sp);
         }
 
         public IEnumerable<Subject> GetNeededSubjects()
@@ -39,7 +41,7 @@ namespace vuSim
         public void ScheduleSection(Section s)
         {
             Schedule.Sections.Add(s);
-            Events.Add(0, 0, $"Scheduled for section {s}");
+            Events.Add($"Scheduled for section {s}");
         }
 
         public void FinishTerm()
@@ -50,18 +52,18 @@ namespace vuSim
                 return;
 
             TermsEnrolled++;
-            Events.Add(0, 0, $"TermsEnrolled now {TermsEnrolled}");
+            Events.Add($"TermsEnrolled now {TermsEnrolled}");
             foreach (var section in Schedule.Sections)
             {
                 Transcript.AddCompletedCredit(section);
-                Events.Add(0, 0, $"Completed credit in {section.Subject}");
+                Events.Add($"Completed credit in {section.Subject}");
             }
             Schedule.Clear();
         }
 
         public void Graduate()
         {
-            Events.Add(0, 0, $"Graduated successfully!");
+            Events.Add($"Graduated successfully!");
         }
 
         public bool IsDegreeEarned()

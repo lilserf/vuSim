@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vuSim.Services;
 
 namespace vuSim
 {
@@ -11,9 +12,15 @@ namespace vuSim
         private List<(int, int, string)> m_events = new();
         public IEnumerable<(int, int, string)> Events => m_events;
 
-        public void Add(int term, int tick, string info)
+        private ITimeService m_timeService;
+
+        public EventLog(IServiceProvider sp)
         {
-            m_events.Add((term, tick, info));
+            sp.Inject(out m_timeService);
+        }
+        public void Add(string info)
+        {
+            m_events.Add((m_timeService.Term, m_timeService.Tick, info));
         }
     }
 }

@@ -15,14 +15,16 @@ namespace vuSim.Services
         public IEnumerable<Student> Graduates => m_grads;
 
         private INameService m_nameService;
+        private IServiceProvider m_services;
         public StudentService(IServiceProvider services)
         {
+            m_services = services;
             services.Inject(out m_nameService);
         }
 
         public Student CreateNewStudent()
         {
-            Student s = new Student(m_nameService.GetRandomFirstName(), m_nameService.GetRandomLastName());
+            Student s = new Student(m_services, m_nameService.GetRandomFirstName(), m_nameService.GetRandomLastName());
             m_students.Add(s);
             return s;
         }

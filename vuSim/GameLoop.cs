@@ -9,24 +9,24 @@ namespace vuSim
 {
     internal class GameLoop
     {
-        int m_currTerm = 0;
-        int m_currTick = 0;
+  
 
         ITeacherService m_teacherService;
         IStudentService m_studentService;
         ISectionService m_sectionService;
+        ITimeService m_timeService;
 
         public GameLoop(IServiceProvider services)
         {
             services.Inject(out m_teacherService);
             services.Inject(out m_studentService);
             services.Inject(out m_sectionService);
+            services.Inject(out m_timeService);
         }
 
-        public int ExecuteStartOfTerm()
+        public void ExecuteStartOfTerm()
         {
-            m_currTerm++;
-            m_currTick = 0;
+            m_timeService.AdvanceTerm();
 
             m_sectionService.RecalculateSections();
 
@@ -34,13 +34,11 @@ namespace vuSim
             {
                 Scheduler.TryScheduleStudent(student, m_sectionService.Sections);
             }
-
-            return m_currTerm;
         }
 
         public void TickTerm() 
         {
-            m_currTick++;
+            m_timeService.TickTerm();
         }
 
         public void ExecuteEndOfTerm()

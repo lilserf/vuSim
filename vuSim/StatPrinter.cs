@@ -44,6 +44,10 @@ namespace vuSim
 
         public void PrintStudentTermHistogram()
         {
+            if (m_studentService.Students.Count() == 0)
+                return;
+
+
             int maxTerms = m_studentService.Students.Max(x => x.TermsEnrolled);
 
             Console.WriteLine("=== Student body histogram ===");

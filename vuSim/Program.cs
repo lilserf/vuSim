@@ -5,6 +5,8 @@ using vuSim.Services;
 ServiceProvider sp = new ServiceProvider();
 
 sp.AddService<INameService>(new NameService());
+var timeService = new TimeService();
+sp.AddService<ITimeService>(timeService);
 
 // TODO this is temp code
 var subjectService = new SubjectService();
@@ -49,10 +51,10 @@ for(int i=0; i < 11; i++)
 
 GameLoop gl = new GameLoop(sp);
 
-for (int i = 0; i < 10; i++)
+while(studentService.Students.Count() > 0)
 {
-    var term = gl.ExecuteStartOfTerm();
-    stats.PrintBasicStats(term);
+    gl.ExecuteStartOfTerm();
+    stats.PrintBasicStats(timeService.Term);
 
     gl.ExecuteEndOfTerm();
     stats.PrintStudentTermHistogram();
