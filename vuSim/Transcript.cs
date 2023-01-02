@@ -8,5 +8,11 @@ namespace vuSim
 {
     internal class Transcript
     {
+        public Transcript() { }
+
+        public Dictionary<int, int> Credits => m_credits;
+        Dictionary<int, int> m_credits = new();
+
+
     }
 }
