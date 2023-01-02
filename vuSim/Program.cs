@@ -29,8 +29,8 @@ StatPrinter stats = new StatPrinter(sp);
 DegreeRequirements.General = new DegreeRequirements(sp);
 DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(0), 4);
 DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(1), 4);
-DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(2), 4);
-DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(3), 4);
+DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(2), 3);
+DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(3), 2);
 
 for(int i =0; i < 100; i++)
 {
@@ -58,4 +58,28 @@ for (int i = 0; i < 10; i++)
     stats.PrintStudentTermHistogram();
 }
 
+using (StreamWriter sw = new StreamWriter("student-events.log"))
+{
+    sw.WriteLine("Graduates:\n");
+    foreach(var student in studentService.Graduates)
+    {
+        sw.WriteLine(student.ToString());
+        foreach(var (term, tick, line) in student.Events.Events)
+        {
+            sw.WriteLine($"{term}:{tick} {line}");
+        }
+        sw.WriteLine();
+    }
 
+    sw.WriteLine("Students:\n");
+    foreach (var student in studentService.Students)
+    {
+        sw.WriteLine(student.ToString());
+        foreach (var (term, tick, line) in student.Events.Events)
+        {
+            sw.WriteLine($"{term}:{tick} {line}");
+        }
+        sw.WriteLine();
+    }
+
+}

@@ -29,6 +29,7 @@ namespace vuSim.Services
 
         public void GraduateStudent(Student student)
         {
+            student.Graduate();
             m_students.Remove(student);
             m_grads.Add(student);
         }
