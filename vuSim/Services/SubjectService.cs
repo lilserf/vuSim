@@ -8,6 +8,7 @@ namespace vuSim.Services
 {
     internal class SubjectService : ISubjectService
     {
+        public IEnumerable<Subject> Subjects => m_subjects.Values;
         Dictionary<int, Subject> m_subjects = new Dictionary<int, Subject>();
         Random m_rand = new Random();
 

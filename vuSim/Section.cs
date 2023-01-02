@@ -14,6 +14,7 @@ namespace vuSim
 
         public IList<Student> Students { get; set; }
 
+        public int Seats => Room.Seats;
         public int OpenSeats => Room.Seats - Students.Count;
         public Section(Teacher teacher, Room room)
         {

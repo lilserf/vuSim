@@ -8,6 +8,7 @@ namespace vuSim.Services
 {
     internal interface ISubjectService
     {
+        IEnumerable<Subject> Subjects { get; }
         public void AddSubject(Subject subject);
         public Subject GetSubjectById(int id);
         public Subject GetRandomSubject();
