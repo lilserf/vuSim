@@ -3,50 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vuSim.Services;
 
 namespace vuSim
 {
     internal class DegreeRequirements
     {
-        Dictionary<int, int> Credits => m_credits;
-        Dictionary<int, int> m_credits = new();
+        IDictionary<Subject, int> Credits => m_credits;
+        Dictionary<Subject, int> m_credits = new();
         
-        internal static DegreeRequirements General;
+        internal static DegreeRequirements? General;
 
-        static DegreeRequirements()
+        private ISubjectService m_subjectService;
+        public DegreeRequirements(IServiceProvider services) 
         {
-            General = new DegreeRequirements();
-            // TODO this is stupid, hardcoding these
-            General.AddRequirement(SubjectListing.Instance.GetSubjectById(0), 4);
-            General.AddRequirement(SubjectListing.Instance.GetSubjectById(1), 4);
-            General.AddRequirement(SubjectListing.Instance.GetSubjectById(2), 4);
-            General.AddRequirement(SubjectListing.Instance.GetSubjectById(3), 4);
-
+            services.Inject(out m_subjectService);
         }
 
-        public DegreeRequirements() 
+        internal Dictionary<Subject, int> GetMissingCredits(Transcript t)
         {
-            
-        }
-
-        internal Dictionary<int, int> GetMissingCredits(Transcript t)
-        {
-            Dictionary<int, int> diff = new();
-            foreach(var (subjId, hours) in m_credits)
+            Dictionary<Subject, int> diff = new();
+            foreach(var (subj, hours) in m_credits)
             {
-                if (t.Credits.ContainsKey(subjId))
+                if (t.Credits.ContainsKey(subj))
                 {
-                    diff[subjId] = hours - t.Credits[subjId];
+                    diff[subj] = hours - t.Credits[subj];
                 }
                 else
                 {
-                    diff[subjId] = hours;
+                    diff[subj] = hours;
                 }
 
                 // Remove 0-hour requirements
-                if (diff[subjId] == 0)
+                if (diff[subj] == 0)
                 {
-                    diff.Remove(subjId);
+                    diff.Remove(subj);
                 }
             }
 
@@ -55,7 +46,7 @@ namespace vuSim
 
         internal void AddRequirement(Subject s, int credits)
         {
-            m_credits[s.Id] = credits;
+            m_credits[s] = credits;
         }
 
         internal bool AreRequirementsMet(Transcript t)
@@ -66,8 +57,7 @@ namespace vuSim
 
         public override string ToString()
         {
-            var subjects = m_credits.Keys.Select(x => SubjectListing.Instance.GetSubjectById(x));
-            var pairs = subjects.Select(x => (x, m_credits[x.Id])).ToList();
+            var pairs = m_credits.Keys.Select(x => (x, m_credits[x])).ToList();
 
             return string.Join(", ", pairs.Select(x => $"{x.Item1}: {x.Item2}"));
         }

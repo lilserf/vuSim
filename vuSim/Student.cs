@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vuSim.Services;
 
 namespace vuSim
 {
@@ -29,8 +30,7 @@ namespace vuSim
 
         public IEnumerable<Subject> GetNeededSubjects()
         {
-            var subjectIds = DegreeRequirements.GetMissingCredits(Transcript).OrderByDescending(x => x.Value).Select(x => x.Key).ToList();
-            return subjectIds.Select(x => SubjectListing.Instance.GetSubjectById(x));
+            return DegreeRequirements.GetMissingCredits(Transcript).OrderByDescending(x => x.Value).Select(x => x.Key).ToList();
         }
 
         public void ScheduleSection(Section s)

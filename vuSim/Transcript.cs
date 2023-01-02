@@ -10,8 +10,8 @@ namespace vuSim
     {
         public Transcript() { }
 
-        public Dictionary<int, int> Credits => m_credits;
-        Dictionary<int, int> m_credits = new();
+        public Dictionary<Subject, int> Credits => m_credits;
+        Dictionary<Subject, int> m_credits = new();
 
 
     }

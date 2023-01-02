@@ -2,6 +2,25 @@
 using vuSim;
 using vuSim.Factories;
 using vuSim.Scheduler;
+using vuSim.Services;
+
+ServiceProvider sp = new ServiceProvider();
+
+// TODO this is temp code
+var subjectService = new SubjectService();
+subjectService.AddSubject(new Subject("Math", "MAT"));
+subjectService.AddSubject(new Subject("English", "ENG"));
+subjectService.AddSubject(new Subject("Science", "SCI"));
+subjectService.AddSubject(new Subject("Social Studies", "SOC"));
+sp.AddService<ISubjectService>(subjectService);
+
+// TODO this is stupid, needs its own service and not to be hardcoded
+DegreeRequirements.General = new DegreeRequirements(sp);
+DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(0), 4);
+DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(1), 4);
+DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(2), 4);
+DegreeRequirements.General.AddRequirement(subjectService.GetSubjectById(3), 4);
+
 
 StudentFactory stuFac = new StudentFactory();
 
@@ -15,13 +34,13 @@ for(int i =0; i < 100; i++)
 List<Teacher> teachers = new List<Teacher> ();
 for(int i =0;i < 13; i++)
 {
-    teachers.Add(new Teacher(NameFactory.Instance.GetRandomFirstName(), NameFactory.Instance.GetRandomLastName(), SubjectListing.Instance.GetRandomSubject()));
+    teachers.Add(new Teacher(NameService.Instance.GetRandomFirstName(), NameService.Instance.GetRandomLastName(), subjectService.GetRandomSubject()));
 }
 
 List<Room> rooms = new List<Room> ();
 for(int i=0; i < 11; i++)
 {
-    rooms.Add(new Room("Classroom", SubjectListing.Instance.GetRandomSubject(), (i + 1)));
+    rooms.Add(new Room("Classroom", subjectService.GetRandomSubject(), (i + 1)));
 }
 
 var sections = Scheduler.CreateSections(rooms, teachers).ToList();
