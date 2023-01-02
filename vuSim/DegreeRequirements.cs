@@ -8,6 +8,7 @@ namespace vuSim
 {
     internal class DegreeRequirements
     {
+        Dictionary<int, int> m_credits = new();
         internal static DegreeRequirements General;
 
         static DegreeRequirements()
@@ -28,8 +29,35 @@ namespace vuSim
             
         }
 
+        Dictionary<int, int> GetMissingCredits(Transcript t)
+        {
+            Dictionary<int, int> diff = new();
+            foreach(var (subjId, hours) in m_credits)
+            {
+                if (t.Credits.ContainsKey(subjId))
+                {
+                    diff[subjId] = hours - t.Credits[subjId];
+                }
+                else
+                {
+                    diff[subjId] = hours;
+                }
+
+                // Remove 0-hour requirements
+                if (diff[subjId] == 0)
+                {
+                    diff.Remove(subjId);
+                }
+            }
+
+            return diff;
+        }
+
+        bool AreRequirementsMet(Transcript t)
         void AddRequirement(Subject s, int credits)
         {
+            var missing = GetMissingCredits(t);
+            return missing.Count == 0;
             m_credits[s.Id] = credits;
         }
 
