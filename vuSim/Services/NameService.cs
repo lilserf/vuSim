@@ -8,13 +8,6 @@ namespace vuSim.Services
 {
     internal class NameService : INameService
     {
-        internal static NameService Instance;
-
-        static NameService()
-        {
-            Instance = new NameService();
-        }
-
         List<string> m_firstNames;
         List<string> m_lastNames;
         Random m_rand = new Random();
