@@ -8,8 +8,6 @@ namespace vuSim.Services
 {
     internal interface INameService
     {
-        public string GetRandomFirstName();
-        public string GetRandomLastName();
-
+        public (string, string) GetRandomName();
     }
 }

@@ -24,7 +24,8 @@ namespace vuSim.Services
 
         public Student CreateNewStudent()
         {
-            Student s = new Student(m_services, m_nameService.GetRandomFirstName(), m_nameService.GetRandomLastName());
+            var (first, last) = m_nameService.GetRandomName();
+            Student s = new Student(m_services, first, last);
             m_students.Add(s);
             return s;
         }

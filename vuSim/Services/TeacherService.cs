@@ -21,7 +21,8 @@ namespace vuSim.Services
 
         public Teacher CreateNewTeacher()
         {
-            Teacher t = new Teacher(m_nameService.GetRandomFirstName(), m_nameService.GetRandomLastName(), m_subjectService.GetRandomSubject());
+            var (first, last) = m_nameService.GetRandomName();
+            Teacher t = new Teacher(first, last, m_subjectService.GetRandomSubject());
             m_teachers.Add(t);
             return t;
         }
